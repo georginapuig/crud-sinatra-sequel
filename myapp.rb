@@ -26,11 +26,11 @@ items.insert(name: 'ghi', price: rand * 100)
 # print out the number of records
 puts "Item count: #{items.count}"
 
-# print out the average price
-puts "The average price is: #{items.avg(:price)}"
+# print out the SUM 
+puts "The average price is: #{items.sum(:price)}"
 
 get '/' do
-  erb :index
+  erb :index, :locals => {:items => items}
 end
 
 post '/' do
@@ -38,7 +38,6 @@ post '/' do
   price = params[:price]
   
   items.insert(name: name, price: price)
-
   redirect '/'
 end
 
@@ -47,7 +46,6 @@ delete '/:id' do
   # p id
 
   items.where(id: id).delete
-
   redirect "/"
 end
 
