@@ -4,6 +4,8 @@ require 'sinatra/reloader' if development?
 require "sequel"
 require "logger"
 
+set :show_exceptions, false
+
 # connect to an in-memory database
 DB = Sequel.sqlite
 DB.loggers << Logger.new($stdout)
@@ -22,9 +24,6 @@ items = DB[:items]
 items.insert(name: 'abc', price: rand * 100)
 items.insert(name: 'def', price: rand * 100)
 items.insert(name: 'ghi', price: rand * 100)
-
-# print out the number of records
-puts "Item count: #{items.count}"
 
 # print out the SUM 
 puts "The average price is: #{items.sum(:price)}"
@@ -48,4 +47,16 @@ delete '/:id' do
   items.where(id: id).delete
   redirect "/"
 end
+
+error do
+  p env['sinatra.error']
+  "ERROR #{env['sinatra.error'].message}"
+end
+
+not_found do
+  'Page not found'
+  redirect "/"
+end
+
+
 
