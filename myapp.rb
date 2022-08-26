@@ -1,8 +1,8 @@
 # myapp.rb
 require 'sinatra'
 require 'sinatra/reloader' if development?
-require "sequel"
-require "logger"
+require 'sequel'
+require 'logger'
 
 set :show_exceptions, false
 
@@ -25,8 +25,8 @@ items.insert(name: 'abc', price: rand * 100)
 items.insert(name: 'def', price: rand * 100)
 items.insert(name: 'ghi', price: rand * 100)
 
-# print out the SUM 
-puts "The average price is: #{items.sum(:price)}"
+# print out the total price 
+puts "The total price is: #{items.sum(:price)}"
 
 get '/' do
   erb :index, :locals => {:items => items}
@@ -45,7 +45,7 @@ delete '/:id' do
   # p id
 
   items.where(id: id).delete
-  redirect "/"
+  redirect '/'
 end
 
 error do
@@ -55,7 +55,7 @@ end
 
 not_found do
   'Page not found'
-  redirect "/"
+  redirect '/'
 end
 
 
